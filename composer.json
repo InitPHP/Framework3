@@ -1,0 +1,26 @@
+{
+    "name": "initphp/framework3",
+    "description": "InitPHP Framework",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "InitPHP\\Framework\\": "system/",
+            "App\\": "application/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Muhammet ŞAFAK",
+            "email": "info@muhammetsafak.com.tr",
+            "homepage": "https://www.muhammetsafak.com.tr",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=8.0",
+        "ext-json": "*",
+        "ext-intl": "*"
+    }
+}
