@@ -12,14 +12,10 @@
  */
 
 declare(strict_types=1);
-namespace InitPHP\Framework\Providers\Interfaces;
+namespace InitPHP\Framework\Exceptions;
 
-interface ProviderInterface
+use InvalidArgumentException;
+
+class FrameworkInvalidArgumentException extends InvalidArgumentException
 {
-
-    /**
-     * @return void
-     */
-    public function boot(): void;
-
 }

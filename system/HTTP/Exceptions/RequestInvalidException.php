@@ -1,7 +1,21 @@
 <?php
+/**
+ * InitPHP Framework
+ *
+ * This file is part of InitPHP.
+ *
+ * @author     Muhammet ŞAFAK <info@muhammetsafak.com.tr>
+ * @copyright  Copyright © 2023 InitPHP Framework
+ * @license    http://initphp.github.io/license.txt  MIT
+ * @version    3.0
+ * @link       https://www.muhammetsafak.com.tr
+ */
 
+declare(strict_types=1);
 namespace InitPHP\Framework\HTTP\Exceptions;
 
-class RequestInvalidException extends \Exception
+use Exception;
+
+class RequestInvalidException extends Exception
 {
 }

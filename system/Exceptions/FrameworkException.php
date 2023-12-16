@@ -12,14 +12,10 @@
  */
 
 declare(strict_types=1);
-namespace InitPHP\Framework\Providers\Interfaces;
+namespace InitPHP\Framework\Exceptions;
 
-interface ProviderInterface
+use Exception;
+
+class FrameworkException extends Exception
 {
-
-    /**
-     * @return void
-     */
-    public function boot(): void;
-
 }

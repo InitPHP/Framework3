@@ -1,9 +1,20 @@
 <?php
+/**
+ * InitPHP Framework
+ *
+ * This file is part of InitPHP.
+ *
+ * @author     Muhammet ŞAFAK <info@muhammetsafak.com.tr>
+ * @copyright  Copyright © 2023 InitPHP Framework
+ * @license    http://initphp.github.io/license.txt  MIT
+ * @version    3.0
+ * @link       https://www.muhammetsafak.com.tr
+ */
 
+declare(strict_types=1);
 namespace InitPHP\Framework\HTTP;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use \Psr\Http\Message\{RequestInterface, ResponseInterface};
 
 class Router extends \InitPHP\Router\Router
 {
@@ -57,7 +68,7 @@ class Router extends \InitPHP\Router\Router
         return $res;
     }
 
-    public function findNameByRouteId(int $id): ?string
+    protected function findNameByRouteId(int $id): ?string
     {
         $name = array_search($id, $this->names);
 

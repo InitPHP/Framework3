@@ -1,6 +1,17 @@
 <?php
+/**
+ * InitPHP Framework
+ *
+ * This file is part of InitPHP.
+ *
+ * @author     Muhammet ŞAFAK <info@muhammetsafak.com.tr>
+ * @copyright  Copyright © 2023 InitPHP Framework
+ * @license    http://initphp.github.io/license.txt  MIT
+ * @version    3.0
+ * @link       https://www.muhammetsafak.com.tr
+ */
 
-use JetBrains\PhpStorm\NoReturn;
+declare(strict_types=1);
 
 if (!function_exists('config')) {
     function config(string $name, $default = null)
@@ -52,7 +63,6 @@ if (!function_exists('response')) {
 }
 
 if (!function_exists('abort')) {
-    #[NoReturn]
     function abort(int $status, array|string|null $withMessage = null): void
     {
         $response = response()
