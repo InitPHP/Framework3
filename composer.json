@@ -46,8 +46,7 @@
         "initphp/logger": "^1.0",
         "initphp/console": "^2.0",
         "initphp/upload": "^1.0",
-        "filp/whoops": "^2.15",
-        "initphp/cli-table": "^1.0"
+        "filp/whoops": "^2.15"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.4"

@@ -24,7 +24,7 @@ class RouteListCommand extends \InitPHP\Framework\Console\Command
         }
 
         $i = 0;
-        $table = new \InitPHP\CLITable\Table();
+        $table = new \InitPHP\Console\Utils\Table();
         foreach ($routes as $method => $route) {
             foreach ($route as $path => $row) {
                 $execute = $row['execute'];

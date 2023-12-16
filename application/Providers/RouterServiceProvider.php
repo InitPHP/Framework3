@@ -15,9 +15,7 @@ class RouterServiceProvider extends AbstractProvider
     {
 
         Route::link('/storage', STORAGE_DIR . 'public');
-        Route::path(BASE_DIR . 'routes/web.php', [
-            'as'        => 'web.'
-        ]);
+        Route::path(BASE_DIR . 'routes/web.php');
 
         Route::path(BASE_DIR . 'routes/api.php', [
             'as'            => 'api.',          // Name Prefix
