@@ -1,0 +1,28 @@
+<?php
+
+namespace {namespace};
+
+use \InitPHP\Console\{Input, Output};
+
+class {name} extends \InitPHP\Framework\Console\Command
+{
+
+    /** @var string Command */
+    public $command = '';
+
+    public function execute(Input $input, Output $output)
+    {
+        // TODO: Implement execute() method.
+    }
+
+    public function definition(): string
+    {
+        return '';
+    }
+
+    public function arguments(): array
+    {
+        return [];
+    }
+
+}

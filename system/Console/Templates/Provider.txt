@@ -1,0 +1,19 @@
+<?php
+
+namespace {namespace};
+
+use \InitPHP\Framework\Providers\AbstractProvider;
+use \InitPHP\Framework\Base;
+
+class {name} extends AbstractProvider
+{
+
+    /**
+     * @inheritDoc
+     */
+    public function boot(): void
+    {
+        // TODO: Implement boot() method.
+    }
+
+}

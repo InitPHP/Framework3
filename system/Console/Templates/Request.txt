@@ -1,0 +1,25 @@
+<?php
+
+namespace {namespace};
+
+use \InitPHP\Framework\HTTP\FormRequest;
+
+class {name} extends FormRequest
+{
+
+    /**
+     * @inheritDoc
+     */
+    protected function prepare()
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function rules(): array
+    {
+        return [];
+    }
+
+}

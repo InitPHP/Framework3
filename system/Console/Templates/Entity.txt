@@ -1,0 +1,10 @@
+<?php
+
+namespace {namespace};
+
+use \InitPHP\Framework\Database\Entity;
+
+class {name} extends Entity
+{
+
+}

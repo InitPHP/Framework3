@@ -1,0 +1,36 @@
+<?php
+
+namespace {namespace};
+
+use \InitPHP\Framework\Database\Model;
+
+class {name} extends Model
+{
+
+    protected string $schema = {schema};
+
+    protected string $schemaId = 'id';
+
+    protected string $entity = {entity};
+
+    protected bool $writable = true;
+
+    protected bool $readable = true;
+
+    protected bool $updatable = true;
+
+    protected bool $deletable = true;
+
+    protected ?string $createdField = null;
+
+    protected ?string $updatedField = null;
+
+    protected bool $useSoftDeletes = false;
+
+    protected ?string $deletedField = null;
+
+    protected string $timestampFormat = 'Y-m-d H:i:s';
+
+    private bool $isOnlyDelete = false;
+
+}
