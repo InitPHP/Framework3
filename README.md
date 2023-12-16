@@ -16,6 +16,13 @@ If you need more; You can simply integrate any Init PHP library or a different l
 
 ```
 composer create-project initphp/framework3 MyProject
+```
+
+```
+cp ./.env.example ./.env
+```
+
+```
 php init key:generate
 ```
 
@@ -33,9 +40,21 @@ To see the available console commands;
 php init list
 ```
 
-## To-Do
+## Docker
 
--[ ] Detailed documentation or Wiki will be prepared.
+Docker allows you to set up your working environment and conduct your work from there. However, the Docker configuration is set up for a development environment, not for a production environment. You will need to appropriately modify the configurations for use in a production environment.
+
+```
+docker-compose build
+docker-compose up -d
+```
+
+If the process has been successfully completed, your project will be waiting for you at the following address.
+
+```
+http://localhost:8000
+```
+
 
 ## Getting Help
 

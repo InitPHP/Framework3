@@ -21,6 +21,7 @@ use InitPHP\Framework\Providers\{BootstrapServiceProvider,
 use InitPHP\Framework\Providers\Exceptions\ProviderLoadException;
 use InitPHP\Framework\Providers\Interfaces\ProviderInterface;
 use InitPHP\HTTP\Facade\Emitter;
+use InitPHP\PerformanceMeter\PerformanceMeter;
 
 
 class Application
@@ -84,6 +85,7 @@ class Application
      */
     public function boot(): self
     {
+        PerformanceMeter::setPointer('framework_start');
         foreach ($this->providers as $provider) {
             $providerObj = ContainerDependency::get($provider);
             if ($providerObj instanceof ProviderInterface) {
@@ -110,6 +112,7 @@ class Application
 
     public function run(): void
     {
+        PerformanceMeter::setPointer('framework_end');
         switch ($this->appType) {
             case self::CLI_APP:
                 Base::getProperty('console')->run();

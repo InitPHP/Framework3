@@ -78,3 +78,25 @@ if (!function_exists('abort')) {
         exit(1);
     }
 }
+
+if (!function_exists('elapsed_time')) {
+    function elapsed_time(string $startPointer = 'framework_start', string $endPointer = 'framework_end', int $decimal = 5): float
+    {
+        return \InitPHP\PerformanceMeter\PerformanceMeter::elapsedTime($startPointer, $endPointer, $decimal);
+    }
+}
+
+if (!function_exists('performance_pointer')) {
+    function performance_pointer(string $name): void
+    {
+        \InitPHP\PerformanceMeter\PerformanceMeter::setPointer($name);
+    }
+}
+
+if (!function_exists('memory_usage')) {
+    function memory_usage(string $startPointer = 'framework_start', string $endPointer = 'framework_end', int $decimal = 2): string
+    {
+        return \InitPHP\PerformanceMeter\PerformanceMeter::memoryUsage($startPointer, $endPointer, $decimal);
+    }
+}
+
