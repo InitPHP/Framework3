@@ -15,17 +15,26 @@ declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
 use InitPHP\Framework\Console\Utils\MakeFile;
-use \InitPHP\Console\{Input, Output};
+use Symfony\Component\Console\Input\InputArgument;
+use \InitPHP\Framework\Console\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class MakeRequestCommand extends \InitPHP\Framework\Console\Command
+class MakeRequestCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'make:request';
+    protected static $defaultName = 'make:request';
 
-    public function execute(Input $input, Output $output)
+    protected function configure(): void
     {
-        $name = trim((!$input->hasSegment(0) ? $output->ask("Name ?", false) : $input->getSegment(0)), "/");
+        $this->setDescription('Creates a request.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Request class name')
+            ->setHelp('--name=RequestName');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $name = $input->getArgument('name');
 
         $path = APP_DIR . "HTTP/Requests/";
         $namespace = "App\\HTTP\\Requests";
@@ -39,21 +48,7 @@ class MakeRequestCommand extends \InitPHP\Framework\Console\Command
         $path .= $name . ".php";
         $make = new MakeFile(SYS_DIR . "Console/Templates/Requests.txt");
 
-        if ($make->to($path, ["name" => $name, "namespace" => $namespace])) {
-            $output->success("Ok");
-        } else {
-            $output->error("Error");
-        }
-    }
-
-    public function definition(): string
-    {
-        return 'Creates a request.';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        return $make->to($path, ["name" => $name, "namespace" => $namespace]) ? Command::SUCCESS : Command::FAILURE;
     }
 
 }

@@ -15,17 +15,25 @@ declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
 use InitPHP\Framework\Console\Utils\MakeFile;
-use \InitPHP\Console\{Input, Output};
+use \InitPHP\Framework\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class MakeMiddlewareCommand extends \InitPHP\Framework\Console\Command
+class MakeMiddlewareCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'make:middleware';
+    protected static $defaultName = 'make:middleware';
 
-    public function execute(Input $input, Output $output)
+    protected function configure(): void
     {
-        $name = trim((!$input->hasSegment(0) ? $output->ask("Name ?", false) : $input->getSegment(0)), "/");
+        $this->setDescription('Creates a middleware.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Middleware Name');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $name = trim($input->getArgument('name'), "/");
 
         $path = APP_DIR . "HTTP/Middlewares/";
         $namespace = "App\\HTTP\\Middlewares";
@@ -39,21 +47,7 @@ class MakeMiddlewareCommand extends \InitPHP\Framework\Console\Command
         $path .= $name . ".php";
         $make = new MakeFile(SYS_DIR . "Console/Templates/Middleware.txt");
 
-        if ($make->to($path, ["name" => $name, "namespace" => $namespace])) {
-            $output->success("Ok");
-        } else {
-            $output->error("Error");
-        }
-    }
-
-    public function definition(): string
-    {
-        return 'Creates a middleware.';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        return $make->to($path, ["name" => $name, "namespace" => $namespace]) ? Command::SUCCESS : Command::FAILURE;
     }
 
 }

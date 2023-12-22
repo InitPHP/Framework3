@@ -14,15 +14,17 @@
 declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
-use \InitPHP\Console\{Input, Output};
+use \InitPHP\Framework\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class ServeCommand extends \InitPHP\Framework\Console\Command
+class ServeCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'serve';
+    protected static $defaultName = 'serve';
 
-    public function execute(Input $input, Output $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $host = $input->hasArgument("host") ? $input->getArgument("host") : "127.0.0.1";
         $port = $input->hasArgument("port") ? $input->getArgument("port") : 8000;
@@ -30,16 +32,15 @@ class ServeCommand extends \InitPHP\Framework\Console\Command
 
         $shell = "php -S " . $host . ":" . $port . " -t \"" . PUBLIC_DIR . "\"";
         exec($shell);
+
+        return Command::SUCCESS;
     }
 
-    public function definition(): string
+    protected function configure(): void
     {
-        return 'It runs a PHP Web server.';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        $this->setDescription('It runs a PHP Web server.')
+            ->addArgument('host', InputArgument::OPTIONAL, 'The host name or IP', '127.0.0.1')
+            ->addArgument('port', InputArgument::OPTIONAL, 'The port', '8000');
     }
 
 }

@@ -14,6 +14,11 @@
 declare(strict_types=1);
 namespace InitPHP\Framework\Console;
 
-abstract class Command extends \InitPHP\Console\Command
+abstract class Command extends \Symfony\Component\Console\Command\Command
 {
+
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
+    public const INVALID = 2;
+
 }

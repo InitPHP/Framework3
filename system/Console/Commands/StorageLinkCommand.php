@@ -14,26 +14,24 @@
 declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
-use \InitPHP\Console\{Input, Output};
 use InitPHP\Framework\Console\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class StorageLinkCommand extends Command
 {
 
-    public $command = 'storage:link';
+    protected static $defaultName = 'storage:link';
 
-    public function execute(Input $input, Output $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (symlink(STORAGE_DIR . "public/", PUBLIC_DIR . "storage")) {
-            $output->success("Shortcut created!");
-        } else {
-            $output->error("Shortcut failed!");
-        }
+        return symlink(STORAGE_DIR . "public/", PUBLIC_DIR . "storage") ? Command::SUCCESS : Command::FAILURE;
     }
 
-    public function definition(): string
+    protected function configure(): void
     {
-        return 'Creates a shortcut to the storage/public directory in public_html.';
+        $this->setDescription('Creates a shortcut to the storage/public directory in public_html.')
+            ->setHelp('');
     }
 
 }

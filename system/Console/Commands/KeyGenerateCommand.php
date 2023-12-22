@@ -14,33 +14,27 @@
 declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
+use InitPHP\Framework\Console\Command;
 use InitPHP\Framework\Console\Utils\ChangeDotEnv;
-use \InitPHP\Console\{Input, Output};
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class KeyGenerateCommand extends \InitPHP\Framework\Console\Command
+class KeyGenerateCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'key:generate';
+    protected static $defaultName = 'key:generate';
 
-    public function execute(Input $input, Output $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $key = '"' . base64_encode(random_bytes(16)) . '"';
-        if ((new ChangeDotEnv())->change('APP_KEY', $key)->save()) {
-            $output->success("Ok");
-        } else {
-            $output->error("Failed");
-        }
+
+        return ((new ChangeDotEnv())->change('APP_KEY', $key)->save()) ? Command::SUCCESS : Command::FAILURE;
     }
 
-    public function definition(): string
+    protected function configure(): void
     {
-        return 'Generates and replaces a new APP_KEY.';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        $this->setDescription('Creates a command.')
+            ->setHelp('');
     }
 
 }

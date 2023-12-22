@@ -14,21 +14,26 @@
 declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
-use \InitPHP\Console\{Input, Output};
 use InitPHP\Framework\Console\Command;
 use InitPHP\Framework\Console\Utils\MakeFile;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class MakeCommandCommand extends Command
 {
 
-    public $command = 'make:command';
+    protected static $defaultName = 'make:command';
 
-    public function execute(Input $input, Output $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $name = !$input->hasSegment(0) ? $output->ask("Name ?", false) : $input->getSegment(0);
+
+        $name = $input->getArgument('name');
+
         $path = APP_DIR . "Console/Commands/";
         $namespace = "App\\Console\\Commands";
-        if ($input->hasOption('s')) {
+        if ($input->getOption('system')) {
             $path = SYS_DIR . "Console/Commands/";
             $namespace = "InitPHP\\Framework\\Console\\Commands";
         }
@@ -41,16 +46,15 @@ class MakeCommandCommand extends Command
         $path .= $name . ".php";
         $make = new MakeFile(SYS_DIR . "Console/Templates/Command.txt");
 
-        if ($make->to($path, ["name" => $name, "namespace" => $namespace])) {
-            $output->success("Ok");
-        } else {
-            $output->error("Error");
-        }
+        return $make->to($path, ["name" => $name, "namespace" => $namespace]) ? Command::SUCCESS : Command::FAILURE;
     }
 
-    public function definition(): string
+    protected function configure(): void
     {
-        return 'Creates a command.';
+        $this->setDescription('Creates a command.')
+            ->setHelp('--name=CommandName')
+            ->addArgument('name', InputArgument::REQUIRED, 'The name of the command class.')
+            ->addOption('system', 's', InputOption::VALUE_OPTIONAL, 'Creates a system command.');
     }
 
 }

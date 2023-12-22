@@ -15,20 +15,30 @@ declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
 use InitPHP\Framework\Console\Utils\MakeFile;
-use \InitPHP\Console\{Input, Output};
+use \InitPHP\Framework\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class MakeModelCommand extends \InitPHP\Framework\Console\Command
+class MakeModelCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'make:model';
+    protected static $defaultName = 'make:model';
 
-    public function execute(Input $input, Output $output)
+    protected function configure(): void
     {
-        $name = trim((!$input->hasSegment(0) ? $output->ask("Name ?", false) : $input->getSegment(0)), "/");
+        $this->setDescription('Creates a model.')
+            ->addArgument('name', InputArgument::REQUIRED, 'Model class name')
+            ->addOption('entity', 'e', InputOption::VALUE_OPTIONAL, 'Create Entity Class.');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $name = trim($input->getArgument('name'), "/");
 
         $entity = null;
-        if ($input->hasOption('e')) {
+        if ($input->hasOption('entity')) {
             $entity = MakeEntityCommand::makeEntity($name);
         }
         empty($entity) && $entity = "\\InitPHP\\Framework\\Database\\Entity::class";
@@ -45,21 +55,9 @@ class MakeModelCommand extends \InitPHP\Framework\Console\Command
         $path .= $name . ".php";
         $make = new MakeFile(SYS_DIR . "Console/Templates/Model.txt");
 
-        if ($make->to($path, ["name" => $name, "namespace" => $namespace, 'entity' => $entity, 'schema' => camelCase2SnakeCase($name)])) {
-            $output->success("Ok");
-        } else {
-            $output->error("Error");
-        }
-    }
-
-    public function definition(): string
-    {
-        return 'Creates a model.';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        return $make->to($path, ["name" => $name, "namespace" => $namespace, 'entity' => $entity, 'schema' => camelCase2SnakeCase($name)])
+            ? Command::SUCCESS
+            : Command::FAILURE;
     }
 
 }
