@@ -2,27 +2,33 @@
 
 namespace {namespace};
 
-use \InitPHP\Console\{Input, Output};
+use \InitPHP\Framework\Console\Command;
+use \Symfony\Component\Console\Input\InputInterface;
+use \Symfony\Component\Console\Output\OutputInterface;
 
-class {name} extends \InitPHP\Framework\Console\Command
+class {name} extends Command
 {
 
-    /** @var string Command */
-    public $command = '';
+    /** @var string */
+    protected static $defaultName = 'app:my-command';
 
-    public function execute(Input $input, Output $output)
+    /**
+     * @inheritDoc
+     */
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         // TODO: Implement execute() method.
+
+        return Command::SUCCESS;
     }
 
-    public function definition(): string
+    /**
+     * @inheritDoc
+     */
+    public function configure()
     {
-        return '';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        $this->setDescription('Command Description')
+            ->setHelp('Help Message');
     }
 
 }

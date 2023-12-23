@@ -14,18 +14,21 @@
 declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
+use InitPHP\Framework\Console\Command;
 use InitPHP\Framework\Console\Utils\MakeFile;
-use \InitPHP\Console\{Input, Output};
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class MakeControllerCommand extends \InitPHP\Framework\Console\Command
+class MakeControllerCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'make:controller';
+    protected static $defaultName = 'make:controller';
 
-    public function execute(Input $input, Output $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $name = trim((!$input->hasSegment(0) ? $output->ask("Name ?", false) : $input->getSegment(0)), "/");
+        $name = $input->getArgument('name');
+
         $path = APP_DIR . "HTTP/Controllers/";
         $namespace = "App\\HTTP\\Controllers";
 
@@ -39,21 +42,13 @@ class MakeControllerCommand extends \InitPHP\Framework\Console\Command
         $path .= $name . ".php";
         $make = new MakeFile(SYS_DIR . "Console/Templates/Controller.txt");
 
-        if ($make->to($path, ["name" => $name, "namespace" => $namespace])) {
-            $output->success("Ok");
-        } else {
-            $output->error("Error");
-        }
+        return $make->to($path, ["name" => $name, "namespace" => $namespace]) ? Command::SUCCESS : Command::FAILURE;
     }
 
-    public function definition(): string
+    protected function configure(): void
     {
-        return 'Creates a controller.';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        $this->setDescription('Creates a controller.')
+            ->addArgument('name', InputArgument::REQUIRED, 'The name of the controller class.');
     }
 
 }

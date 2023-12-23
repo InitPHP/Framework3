@@ -44,10 +44,10 @@
         "nesbot/carbon": "^2.72",
         "initphp/cookies": "^1.1",
         "initphp/logger": "^1.0",
-        "initphp/console": "^2.0",
         "initphp/upload": "^1.0",
         "filp/whoops": "^2.15",
-        "initphp/performance-meter": "^1.0"
+        "initphp/performance-meter": "^1.0",
+        "symfony/console": "^6.4"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.4"

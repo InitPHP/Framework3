@@ -15,19 +15,28 @@ declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
 use InitPHP\Framework\Base;
-use \InitPHP\Console\{Input, Output};
-
+use \InitPHP\Framework\Console\Command;
+use InitPHP\Framework\Console\Utils\Table;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use const PHP_EOL;
 
-class RouteListCommand extends \InitPHP\Framework\Console\Command
+class RouteListCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'route:list';
+    protected static $defaultName = 'route:list';
 
-    public function execute(Input $input, Output $output)
+
+    protected function configure(): void
     {
-        if ($input->hasArgument('method')) {
+        $this->setDescription('Routes list.')
+            ->addArgument('method', InputArgument::OPTIONAL, 'HTTP Method');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        if (!empty($input->getArgument('method'))) {
             $routes = [
                 strtoupper($input->getArgument('method')) => Base::getProperty('router')->getRoutes($input->getArgument('method'))
             ];
@@ -36,7 +45,7 @@ class RouteListCommand extends \InitPHP\Framework\Console\Command
         }
 
         $i = 0;
-        $table = new \InitPHP\Console\Utils\Table();
+        $table = new Table();
         foreach ($routes as $method => $route) {
             foreach ($route as $path => $row) {
                 $execute = $row['execute'];
@@ -55,17 +64,9 @@ class RouteListCommand extends \InitPHP\Framework\Console\Command
             }
         }
 
-        $output->write(PHP_EOL . $table->getContent() . PHP_EOL);
-    }
+        $output->writeln(PHP_EOL . $table->getContent() . PHP_EOL);
 
-    public function definition(): string
-    {
-        return 'Routes list.';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        return Command::SUCCESS;
     }
 
 }

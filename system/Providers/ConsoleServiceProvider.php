@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace InitPHP\Framework\Providers;
 
 use InitPHP\Framework\Base;
-use InitPHP\Framework\Providers\AbstractProvider;
+use Symfony\Component\Console\Application;
 
 class ConsoleServiceProvider extends AbstractProvider
 {
@@ -25,14 +25,14 @@ class ConsoleServiceProvider extends AbstractProvider
      */
     public function boot(): void
     {
-        $console = new \InitPHP\Console\Application("InitPHP Framework", "3.0");
+        $console = new Application("InitPHP Framework", "3.0");
         $commands = glob(SYS_DIR . "Console/Commands/*.php");
         foreach ($commands as $command) {
             $commandClass = '\\InitPHP\\Framework\\Console\\Commands\\' . basename($command, '.php');
             if (!class_exists($commandClass)) {
                 continue;
             }
-            $console->register($commandClass);
+            $console->add(new $commandClass());
         }
         $commands = glob(APP_DIR . "Console/Commands/*.php");
         foreach ($commands as $command) {
@@ -40,7 +40,7 @@ class ConsoleServiceProvider extends AbstractProvider
             if (!class_exists($commandClass)) {
                 continue;
             }
-            $console->register($commandClass);
+            $console->add(new $commandClass());
         }
         !Base::hasProperty('console') && Base::setProperty('console', $console);
     }

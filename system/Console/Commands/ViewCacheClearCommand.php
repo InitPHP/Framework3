@@ -14,15 +14,16 @@
 declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
-use \InitPHP\Console\{Input, Output};
+use InitPHP\Framework\Console\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class ViewCacheClearCommand extends \InitPHP\Framework\Console\Command
+class ViewCacheClearCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'view:clear';
+    protected static $defaultName = 'view:clear';
 
-    public function execute(Input $input, Output $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $path = STORAGE_DIR . "cache/views/*";
         $caches = glob($path);
@@ -33,17 +34,12 @@ class ViewCacheClearCommand extends \InitPHP\Framework\Console\Command
             $output->writeln($cache);
             unlink($cache);
         }
-        $output->success("Ok");
+        return Command::SUCCESS;
     }
 
-    public function definition(): string
+    protected function configure(): void
     {
-        return 'View cache clear';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        $this->setDescription('View cache clear');
     }
 
 }

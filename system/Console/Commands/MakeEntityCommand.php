@@ -14,34 +14,28 @@
 declare(strict_types=1);
 namespace InitPHP\Framework\Console\Commands;
 
+use InitPHP\Framework\Console\Command;
 use InitPHP\Framework\Console\Utils\MakeFile;
-use \InitPHP\Console\{Input, Output};
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class MakeEntityCommand extends \InitPHP\Framework\Console\Command
+class MakeEntityCommand extends Command
 {
 
-    /** @var string Command */
-    public $command = 'make:entity';
+    protected static $defaultName = 'make:entity';
 
-    public function execute(Input $input, Output $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
-        $name = trim((!$input->hasSegment(0) ? $output->ask("Name ?", false) : $input->getSegment(0)), "/");
+        $name = trim($input->getArgument('name'), "/");
 
-        if (!empty(self::makeEntity($name))) {
-            $output->success("Ok");
-        } else {
-            $output->error("Error");
-        }
+        return !empty(self::makeEntity($name)) ? Command::SUCCESS : Command::FAILURE;
     }
 
-    public function definition(): string
+    protected function configure(): void
     {
-        return 'Creates a entity.';
-    }
-
-    public function arguments(): array
-    {
-        return [];
+        $this->setDescription('Creates a entity.')
+            ->addArgument('name', InputArgument::REQUIRED, 'The name of the entity class.');
     }
 
     public static function makeEntity(string $name): ?string
