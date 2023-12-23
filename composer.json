@@ -26,7 +26,7 @@
         "ext-curl": "*",
         "ext-simplexml": "*",
         "initphp/config": "^1.0",
-        "initphp/container": "^0.3.0",
+        "initphp/container": "^0.4",
         "initphp/dotenv": "^2.0",
         "initphp/http": "^2.1",
         "initphp/router": "^1.2",
