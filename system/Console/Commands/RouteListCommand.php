@@ -16,6 +16,7 @@ namespace InitPHP\Framework\Console\Commands;
 
 use InitPHP\Framework\Base;
 use \InitPHP\Framework\Console\Command;
+use InitPHP\Framework\Console\Utils\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,7 +36,7 @@ class RouteListCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->hasArgument('method')) {
+        if (!empty($input->getArgument('method'))) {
             $routes = [
                 strtoupper($input->getArgument('method')) => Base::getProperty('router')->getRoutes($input->getArgument('method'))
             ];
@@ -44,7 +45,7 @@ class RouteListCommand extends Command
         }
 
         $i = 0;
-        $table = new \InitPHP\Console\Utils\Table();
+        $table = new Table();
         foreach ($routes as $method => $route) {
             foreach ($route as $path => $row) {
                 $execute = $row['execute'];
@@ -63,7 +64,7 @@ class RouteListCommand extends Command
             }
         }
 
-        $output->write(PHP_EOL . $table->getContent() . PHP_EOL);
+        $output->writeln(PHP_EOL . $table->getContent() . PHP_EOL);
 
         return Command::SUCCESS;
     }

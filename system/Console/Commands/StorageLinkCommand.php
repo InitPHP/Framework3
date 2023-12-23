@@ -30,8 +30,7 @@ class StorageLinkCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Creates a shortcut to the storage/public directory in public_html.')
-            ->setHelp('');
+        $this->setDescription('Creates a shortcut to the storage/public directory in public_html.');
     }
 
 }

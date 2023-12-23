@@ -35,7 +35,6 @@ class MakeEntityCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Creates a entity.')
-            ->setHelp('--name=EntityName')
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the entity class.');
     }
 

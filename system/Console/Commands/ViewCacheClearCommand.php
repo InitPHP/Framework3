@@ -39,8 +39,7 @@ class ViewCacheClearCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('View cache clear')
-            ->setHelp('');
+        $this->setDescription('View cache clear');
     }
 
 }

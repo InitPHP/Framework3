@@ -7,7 +7,7 @@ use \InitPHP\Framework\Database\Model;
 class {name} extends Model
 {
 
-    protected string $schema = {schema};
+    protected string $schema = "{schema}";
 
     protected string $schemaId = 'id';
 

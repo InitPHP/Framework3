@@ -30,7 +30,7 @@ class MakeProviderCommand extends Command
     {
         $this->setDescription('Creates a service provider.')
             ->addArgument('name', InputArgument::REQUIRED, 'Provider Name')
-            ->addOption('system', 's', InputOption::VALUE_OPTIONAL, 'System Provider');
+            ->addOption('system', 's', InputOption::VALUE_NONE, 'System Provider');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -38,7 +38,7 @@ class MakeProviderCommand extends Command
         $name = $input->getArgument('name');
         $path = APP_DIR . "Providers/";
         $namespace = "App\\Providers";
-        if ($input->hasOption('system')) {
+        if ($input->getOption('system')) {
             $path = SYS_DIR . "Providers/";
             $namespace = "InitPHP\\Framework\\Providers";
         }
@@ -49,7 +49,7 @@ class MakeProviderCommand extends Command
             $path .= implode("/", $split) . "/";
         }
         $path .= $name . ".php";
-        $make = new MakeFile(SYS_DIR . "Console/Templates/Providers.txt");
+        $make = new MakeFile(SYS_DIR . "Console/Templates/Provider.txt");
 
         return $make->to($path, ["name" => $name, "namespace" => $namespace]) ? Command::SUCCESS : Command::FAILURE;
     }

@@ -48,7 +48,6 @@ class MakeControllerCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Creates a controller.')
-            ->setHelp('--name=ControllerName')
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the controller class.');
     }
 

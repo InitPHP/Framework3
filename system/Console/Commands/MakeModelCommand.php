@@ -30,15 +30,14 @@ class MakeModelCommand extends Command
     {
         $this->setDescription('Creates a model.')
             ->addArgument('name', InputArgument::REQUIRED, 'Model class name')
-            ->addOption('entity', 'e', InputOption::VALUE_OPTIONAL, 'Create Entity Class.');
+            ->addOption('entity', 'e', InputOption::VALUE_NONE, 'Create Entity Class.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = trim($input->getArgument('name'), "/");
-
         $entity = null;
-        if ($input->hasOption('entity')) {
+        if ($input->getOption('entity')) {
             $entity = MakeEntityCommand::makeEntity($name);
         }
         empty($entity) && $entity = "\\InitPHP\\Framework\\Database\\Entity::class";

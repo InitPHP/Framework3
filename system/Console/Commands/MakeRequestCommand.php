@@ -28,8 +28,7 @@ class MakeRequestCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Creates a request.')
-            ->addArgument('name', InputArgument::REQUIRED, 'Request class name')
-            ->setHelp('--name=RequestName');
+            ->addArgument('name', InputArgument::REQUIRED, 'Request class name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -46,9 +45,11 @@ class MakeRequestCommand extends Command
             $path .= implode("/", $split) . "/";
         }
         $path .= $name . ".php";
-        $make = new MakeFile(SYS_DIR . "Console/Templates/Requests.txt");
 
-        return $make->to($path, ["name" => $name, "namespace" => $namespace]) ? Command::SUCCESS : Command::FAILURE;
+        $write = (new MakeFile(SYS_DIR . 'Console/Templates/Request.txt'))
+            ->to($path, ['name' => $name, 'namespace' => $namespace]);
+
+        return $write ? Command::SUCCESS : Command::FAILURE;
     }
 
 }

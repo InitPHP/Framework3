@@ -17,16 +17,10 @@ if (!function_exists('camelCase2SnakeCase')) {
     function camelCase2SnakeCase(string $camelCase): string
     {
         $string = lcfirst($camelCase);
-        $split = preg_split('', $string, -1, PREG_SPLIT_NO_EMPTY);
-        $snake_case = '';
-        $i = 0;
-        foreach ($split as $row) {
-            $snake_case .= ($i === 0 ? '_' : '')
-                . strtolower($row);
-            ++$i;
-        }
 
-        return lcfirst($snake_case);
+        return preg_replace_callback('/[A-Z]/', function ($match) {
+            return '_' . strtolower($match[0]);
+        }, $string);
     }
 }
 

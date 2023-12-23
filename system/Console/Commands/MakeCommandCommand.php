@@ -52,9 +52,8 @@ class MakeCommandCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Creates a command.')
-            ->setHelp('--name=CommandName')
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the command class.')
-            ->addOption('system', 's', InputOption::VALUE_OPTIONAL, 'Creates a system command.');
+            ->addOption('system', 's', InputOption::VALUE_NONE, 'Creates a system command.');
     }
 
 }
